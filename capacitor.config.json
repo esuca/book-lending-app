@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "lending-books-app-ionic",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

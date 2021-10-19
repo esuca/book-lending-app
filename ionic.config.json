@@ -1,0 +1,7 @@
+{
+  "name": "lending-books-app-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
