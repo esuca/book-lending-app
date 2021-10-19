@@ -9,13 +9,13 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react'
-import './Tab1.css'
+import 'src/pages/BooksView.css'
 import { useEffect, useState } from 'react'
 import { getCompleteBooksQry } from '../supabase-api/get-complete-books-qry'
 import { CompleteBook } from 'src/supabase-api/interfaces/book'
 import { matchSorter } from 'match-sorter'
 
-const Tab1: React.FC = () => {
+export const BooksView: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [books, setBooks] = useState<CompleteBook[]>([])
   const [isLoading, setLoading] = useState(false)
@@ -34,7 +34,7 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Books</IonTitle>
+          <IonTitle>Libros</IonTitle>
         </IonToolbar>
         <IonToolbar>
           <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Introduce el título, autor o número" debounce={0}/>
@@ -43,7 +43,7 @@ const Tab1: React.FC = () => {
       <IonContent fullscreen>
         <IonHeader collapse='condense'>
           <IonToolbar>
-            <IonTitle size='large'>Books</IonTitle>
+            <IonTitle size='large'>Libros</IonTitle>
           </IonToolbar>
         </IonHeader>
         {isLoading && <IonSpinner className="loading-spinner" />}
@@ -62,5 +62,3 @@ const Tab1: React.FC = () => {
     </IonPage>
   )
 }
-
-export default Tab1
