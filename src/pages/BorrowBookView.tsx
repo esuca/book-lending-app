@@ -8,18 +8,12 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonLoading,
   IonPage,
   IonSearchbar,
   IonSpinner,
   IonTitle,
   IonToolbar,
-  useIonLoading,
-  useIonRouter,
-  useIonViewDidEnter,
-  useIonViewDidLeave,
-  useIonViewWillEnter,
-  useIonViewWillLeave
+  useIonRouter
 } from '@ionic/react'
 import 'src/pages/BooksView.css'
 import React, { useEffect, useRef, useState } from 'react'

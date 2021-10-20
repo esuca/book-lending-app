@@ -66,16 +66,10 @@ export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref)
       </IonHeader>
       <IonContent fullscreen>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InputField type='text' name='name' control={control} rules={{ required: 'Por favor introduce su título' }}>
+          <InputField type='text' name='title' control={control}>
             Título
           </InputField>
-          <InputField
-            type='text'
-            name='surname'
-            control={control}
-            rules={{ required: 'Por favor introduce su número de la pegatina' }}
-            inputMode='numeric'
-          >
+          <InputField type='number' inputMode='numeric' name='book_number' control={control}>
             Número de la pegatina
           </InputField>
         </form>

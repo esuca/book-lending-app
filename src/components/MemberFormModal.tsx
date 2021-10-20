@@ -80,24 +80,13 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
       </IonHeader>
       <IonContent fullscreen>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InputField type='text' name='name' control={control} rules={{ required: 'Por favor introduce su nombre' }}>
+          <InputField type='text' name='name' control={control}>
             Nombre
           </InputField>
-          <InputField
-            type='text'
-            name='surname'
-            control={control}
-            rules={{ required: 'Por favor introduce su apellido' }}
-          >
+          <InputField type='text' name='surname' control={control}>
             Apellido
           </InputField>
-          <InputField
-            type='tel'
-            name='phone_number'
-            control={control}
-            inputMode='tel'
-            rules={{ required: 'Por favor introduce su número de teléfono' }}
-          >
+          <InputField type='tel' name='phone_number' control={control} inputMode='tel'>
             Teléfono
           </InputField>
         </form>
