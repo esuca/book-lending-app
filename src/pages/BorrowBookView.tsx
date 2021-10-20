@@ -14,7 +14,12 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
-  useIonRouter
+  useIonLoading,
+  useIonRouter,
+  useIonViewDidEnter,
+  useIonViewDidLeave,
+  useIonViewWillEnter,
+  useIonViewWillLeave
 } from '@ionic/react'
 import 'src/pages/BooksView.css'
 import React, { useEffect, useRef, useState } from 'react'
@@ -48,17 +53,14 @@ export const BorrowBookView: React.FC = () => {
     setShowMemberActionSheet(true)
   }
 
-  const [isBorrowingBook, setIsBorrowingBook] = useState(false)
   const borrowBook = async () => {
     const bookId = new URLSearchParams(router.routeInfo.search).get('bookId')
     console.log('bookId', bookId)
-    setIsBorrowingBook(true)
     await new Promise(resolve => {
       setTimeout(() => {
         resolve('asd')
-      }, 2000)
+      }, 200)
     })
-    setIsBorrowingBook(false)
     router.goBack()
   }
 
@@ -128,7 +130,6 @@ export const BorrowBookView: React.FC = () => {
             }
           ]}
         />
-        <IonLoading isOpen={isBorrowingBook} message={'Prestando...'} />
         {pageRef.current !== null && (
           <MemberFormModal
             ref={memberFormModalRef}

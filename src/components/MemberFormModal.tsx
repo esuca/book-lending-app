@@ -20,7 +20,6 @@ interface Props {
 }
 
 export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref) => {
-  const [isLoading, setIsLoading] = useState(false)
   const router = useIonRouter()
   const {
     handleSubmit,
@@ -38,14 +37,12 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
 
   const onSubmit = async (data: any) => {
     // await saveMemberCmd(data)
-    setIsLoading(true)
     await new Promise(resolve => {
       setTimeout(() => {
         resolve('asd')
         console.log('asd')
-      }, 2000)
+      }, 200)
     })
-    setIsLoading(false)
     props.onClose()
     router.push('/books')
   }
@@ -104,7 +101,6 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
             Teléfono
           </InputField>
         </form>
-        <IonLoading isOpen={isLoading} message={'Guardando...'} />
       </IonContent>
     </IonModal>
   )

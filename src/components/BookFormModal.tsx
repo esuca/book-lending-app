@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref) => {
-  const [isLoading, setIsLoading] = useState(false)
   const {
     handleSubmit,
     control,
@@ -26,14 +25,12 @@ export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref)
 
   const onSubmit = async (data: any) => {
     // await saveMemberCmd(data)
-    setIsLoading(true)
     await new Promise(resolve => {
       setTimeout(() => {
         resolve('asd')
         console.log('asd')
-      }, 2000)
+      }, 200)
     })
-    setIsLoading(false)
     props.onClose()
   }
 
@@ -82,7 +79,6 @@ export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref)
             Número de la pegatina
           </InputField>
         </form>
-        <IonLoading isOpen={isLoading} message={'Guardando...'} />
       </IonContent>
     </IonModal>
   )

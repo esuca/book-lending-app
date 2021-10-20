@@ -13,7 +13,8 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
-  useIonRouter
+  useIonRouter,
+  useIonViewWillEnter
 } from '@ionic/react'
 import 'src/pages/BooksView.css'
 import { useEffect, useRef, useState } from 'react'
@@ -30,17 +31,14 @@ export const BooksView: React.FC = () => {
   const [searchText, setSearchText] = useState('')
   const [books, setBooks] = useState<CompleteBook[]>([])
   const [selectedBook, setSelectedBook] = useState<Book | undefined>(undefined)
-  const [isLoading, setLoading] = useState(false)
 
   const pageRef = useRef<HTMLElement>(null)
   const bookModalRef = useRef<HTMLIonModalElement>(null)
 
   const [showBookFormModal, setShowBookFormModal] = useState(false)
 
-  useEffect(() => {
-    setLoading(true)
+  useIonViewWillEnter(() => {
     getCompleteBooksQry().then(response => {
-      setLoading(false)
       setBooks(response)
     })
   }, [])
@@ -73,7 +71,6 @@ export const BooksView: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {isLoading && <IonSpinner className='books-loading-spinner' />}
         {filteredBooks.length !== 0 && (
           <IonList>
             {filteredBooks.map(book => {
