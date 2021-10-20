@@ -1,4 +1,6 @@
 import {
+  IonActionSheet,
+  IonAvatar,
   IonButton,
   IonButtons,
   IonContent,
@@ -17,14 +19,17 @@ import {
 import 'src/pages/BooksView.css'
 import { useEffect, useState } from 'react'
 import { getCompleteBooksQry } from '../supabase-api/get-complete-books-qry'
-import { CompleteBook } from 'src/supabase-api/interfaces/book'
+import { Book, CompleteBook } from 'src/supabase-api/interfaces/book'
 import { matchSorter } from 'match-sorter'
-import { add } from 'ionicons/icons'
+import { add, close, person } from 'ionicons/icons'
 
 export const BooksView: React.FC = () => {
+  const [showBookActionSheet, setShowBookActionSheet] = useState(false)
   const router = useIonRouter()
+
   const [searchText, setSearchText] = useState('')
   const [books, setBooks] = useState<CompleteBook[]>([])
+  const [selectedBook, setSelectedBook] = useState<Book | undefined>(undefined)
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -36,6 +41,11 @@ export const BooksView: React.FC = () => {
   }, [])
 
   const filteredBooks = matchSorter(books, searchText, { keys: ['title', 'book_number', 'authors.name'] })
+
+  const openBookActionSheet = (book: Book) => {
+    setSelectedBook(book)
+    setShowBookActionSheet(true)
+  }
 
   return (
     <IonPage>
@@ -58,23 +68,45 @@ export const BooksView: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Libros</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         {isLoading && <IonSpinner className='books-loading-spinner' />}
         {filteredBooks.length !== 0 && (
           <IonList>
             {filteredBooks.map(book => {
               return (
-                <IonItem key={book.id}>
-                  <IonLabel>{book.title}</IonLabel>
+                <IonItem key={book.id} onClick={() => openBookActionSheet(book)}>
+                  <IonLabel>
+                    <h2>{book.title}</h2>
+                    <p>
+                      {book.book_number} &#8226; {book.authors.name}
+                    </p>
+                  </IonLabel>
                 </IonItem>
               )
             })}
           </IonList>
         )}
+        <IonActionSheet
+          header={selectedBook?.title}
+          isOpen={showBookActionSheet}
+          onDidDismiss={() => setShowBookActionSheet(false)}
+          buttons={[
+            {
+              text: 'Prestar',
+              icon: person,
+              handler: () => {
+                console.log('do something')
+              }
+            },
+            {
+              text: 'Cancelar',
+              icon: close,
+              role: 'cancel',
+              handler: () => {
+                setShowBookActionSheet(false)
+              }
+            }
+          ]}
+        />
       </IonContent>
     </IonPage>
   )
