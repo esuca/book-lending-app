@@ -2,14 +2,17 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonHeader, IonIcon,
+  IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
-  IonPage, IonRouterLink,
-  IonSearchbar, IonSpinner,
+  IonPage,
+  IonSearchbar,
+  IonSpinner,
   IonTitle,
-  IonToolbar, useIonRouter
+  IonToolbar,
+  useIonRouter
 } from '@ionic/react'
 import 'src/pages/BooksView.css'
 import { useEffect, useState } from 'react'
@@ -20,7 +23,7 @@ import { add } from 'ionicons/icons'
 
 export const BooksView: React.FC = () => {
   const router = useIonRouter()
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('')
   const [books, setBooks] = useState<CompleteBook[]>([])
   const [isLoading, setLoading] = useState(false)
 
@@ -46,7 +49,12 @@ export const BooksView: React.FC = () => {
           </IonButtons>
         </IonToolbar>
         <IonToolbar>
-          <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Introduce el título, autor o número" debounce={0}/>
+          <IonSearchbar
+            value={searchText}
+            onIonChange={e => setSearchText(e.detail.value!)}
+            placeholder='Introduce el título, autor o número'
+            debounce={0}
+          />
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -55,10 +63,10 @@ export const BooksView: React.FC = () => {
             <IonTitle size='large'>Libros</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {isLoading && <IonSpinner className="books-loading-spinner" />}
+        {isLoading && <IonSpinner className='books-loading-spinner' />}
         {filteredBooks.length !== 0 && (
           <IonList>
-            {filteredBooks.map((book) => {
+            {filteredBooks.map(book => {
               return (
                 <IonItem key={book.id}>
                   <IonLabel>{book.title}</IonLabel>

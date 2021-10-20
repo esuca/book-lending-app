@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
-import {
-  IonButton,
-  IonContent,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonLoading,
-  IonText,
-} from '@ionic/react'
-import { Controller, useForm } from 'react-hook-form'
+import { IonButton, IonContent, IonLoading } from '@ionic/react'
+import { useForm } from 'react-hook-form'
+import { InputField } from 'src/components/InputField'
 
 export const MemberForm = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -23,16 +16,13 @@ export const MemberForm = () => {
 
   const onSubmit = async (data: any) => {
     // await saveMemberCmd(data)
-    console.log('data', data)
     setIsLoading(true)
     await new Promise(resolve => {
       setTimeout(() => {
-        console.log('hellow')
         resolve('asd')
       }, 2000)
     })
-    // setIsLoading(false)
-    console.log('paso x aqui')
+    setIsLoading(false)
   }
 
   return (
@@ -53,36 +43,8 @@ export const MemberForm = () => {
       </form>
       <IonLoading
         isOpen={isLoading}
-        message={'Realizando operación...'}
+        message={'Guardando...'}
       />
     </IonContent>
   )
-}
-
-const InputField: React.FC<any> = ({ name, control, type, rules, children, inputMode }: any) => {
-  return (
-    <Controller
-      control={control}
-      name={name}
-      render={({ field, fieldState: { invalid, error } }) => {
-        return (
-          <React.Fragment>
-            <IonItem
-              style={{ '--highlight-background': invalid ? 'var(--highlight-color-invalid)' : 'var(--highlight-color-focused)' }}>
-              <IonLabel position='stacked'>{children}</IonLabel>
-              <IonInput type={type} {...field} onIonChange={e => field.onChange(e.detail.value)} autocomplete='off'
-                        inputmode={inputMode} />
-            </IonItem>
-            {error && <FieldErrorMessage>{error.message}</FieldErrorMessage>}
-          </React.Fragment>
-        )
-      }}
-      rules={rules}
-    />
-  )
-}
-
-
-export const FieldErrorMessage: React.FC = (props) => {
-  return <IonText color='danger' style={{ marginLeft: 16, fontSize: 'smaller' }}>{props.children}</IonText>
 }
