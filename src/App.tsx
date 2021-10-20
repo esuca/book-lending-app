@@ -23,7 +23,7 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './theme/variables.css'
-import { FormsView } from 'src/pages/FormsView'
+import { BorrowBookView } from 'src/pages/BorrowBookView'
 
 const App: React.FC = () => (
   <IonApp>
@@ -36,8 +36,8 @@ const App: React.FC = () => (
           <Route exact path='/loans'>
             <LoansView />
           </Route>
-          <Route exact path='/forms'>
-            <FormsView />
+          <Route exact path='/borrow-book'>
+            <BorrowBookView />
           </Route>
           <Route exact path='/'>
             <Redirect to='/books' />

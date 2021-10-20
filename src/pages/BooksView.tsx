@@ -1,6 +1,5 @@
 import {
   IonActionSheet,
-  IonAvatar,
   IonButton,
   IonButtons,
   IonContent,
@@ -94,7 +93,7 @@ export const BooksView: React.FC = () => {
               text: 'Prestar',
               icon: person,
               handler: () => {
-                console.log('do something')
+                router.push(`/borrow-book?bookId=${selectedBook?.id}`)
               }
             },
             {
