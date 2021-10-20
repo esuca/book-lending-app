@@ -22,7 +22,7 @@ import { matchSorter } from 'match-sorter'
 import { add, close, person } from 'ionicons/icons'
 import { Member } from 'src/supabase-api/interfaces/member'
 import { getMembersQry } from 'src/supabase-api/get-members-qry'
-import { MemberFormModal } from 'src/pages/MemberFormModal'
+import { MemberFormModal } from 'src/components/MemberFormModal'
 
 export const BorrowBookView: React.FC = () => {
   const [showMemberActionSheet, setShowMemberActionSheet] = useState(false)

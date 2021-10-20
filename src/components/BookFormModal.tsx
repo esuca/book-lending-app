@@ -1,15 +1,5 @@
 import React, { forwardRef, useState } from 'react'
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonLoading,
-  IonModal,
-  IonTitle,
-  IonToolbar,
-  useIonRouter
-} from '@ionic/react'
+import { IonButton, IonButtons, IonContent, IonHeader, IonLoading, IonModal, IonTitle, IonToolbar } from '@ionic/react'
 import { useForm } from 'react-hook-form'
 import { InputField } from 'src/components/InputField'
 
@@ -19,18 +9,16 @@ interface Props {
   onClose: () => void
 }
 
-export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref) => {
+export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref) => {
   const [isLoading, setIsLoading] = useState(false)
-  const router = useIonRouter()
   const {
     handleSubmit,
     control,
     formState: { isValid }
   } = useForm({
     defaultValues: {
-      name: '',
-      surname: '',
-      phone_number: ''
+      title: '',
+      book_number: ''
     },
     mode: 'onChange'
   })
@@ -46,7 +34,6 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
     })
     setIsLoading(false)
     props.onClose()
-    router.push('/books')
   }
 
   return (
@@ -62,7 +49,7 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
           <IonButtons slot='start'>
             <IonButton onClick={props.onClose}>Cancelar</IonButton>
           </IonButtons>
-          <IonTitle>Nuevo miembro</IonTitle>
+          <IonTitle>Nuevo libro</IonTitle>
           <IonButtons slot='end'>
             <IonButton disabled={!isValid} color={!isValid ? 'dark' : 'primary'} onClick={handleSubmit(onSubmit)}>
               OK
@@ -72,28 +59,20 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
       </IonHeader>
       <IonContent fullscreen>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InputField type='text' name='name' control={control} rules={{ required: 'Por favor introduce su nombre' }}>
-            Nombre
+          <InputField type='text' name='name' control={control} rules={{ required: 'Por favor introduce su título' }}>
+            Título
           </InputField>
           <InputField
             type='text'
             name='surname'
             control={control}
-            rules={{ required: 'Por favor introduce su apellido' }}
+            rules={{ required: 'Por favor introduce su número de la pegatina' }}
+            inputMode='numeric'
           >
-            Apellido
-          </InputField>
-          <InputField
-            type='tel'
-            name='phone_number'
-            control={control}
-            inputMode='tel'
-            rules={{ required: 'Por favor introduce su número de teléfono' }}
-          >
-            Teléfono
+            Número de la pegatina
           </InputField>
         </form>
-        <IonLoading isOpen={isLoading} message={'Guardando...'} id='member-form' cssClass='loading-member-form' />
+        <IonLoading isOpen={isLoading} message={'Guardando...'} />
       </IonContent>
     </IonModal>
   )
