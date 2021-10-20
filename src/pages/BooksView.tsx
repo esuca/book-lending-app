@@ -55,7 +55,7 @@ export const BooksView: React.FC = () => {
             <IonTitle size='large'>Libros</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {isLoading && <IonSpinner className="loading-spinner" />}
+        {isLoading && <IonSpinner className="books-loading-spinner" />}
         {filteredBooks.length !== 0 && (
           <IonList>
             {filteredBooks.map((book) => {
