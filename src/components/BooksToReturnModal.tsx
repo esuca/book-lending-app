@@ -33,7 +33,6 @@ export const BooksToReturnModal = forwardRef<HTMLIonModalElement, Props>((props,
         isChecked: true
       }))
     )
-    console.log('cuantas veces te ejecutas')
   }, [props.booksToReturn])
 
   const toggleCheckboxOption = (book: BookToReturn) => {

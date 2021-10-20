@@ -29,6 +29,7 @@ export const InputField: React.FC<InputFieldProps> = ({ name, control, type, chi
           </React.Fragment>
         )
       }}
+      rules={{ required: true }}
     />
   )
 }
