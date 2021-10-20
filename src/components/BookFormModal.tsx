@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { IonButton, IonButtons, IonContent, IonHeader, IonLoading, IonModal, IonTitle, IonToolbar } from '@ionic/react'
 import { useForm } from 'react-hook-form'
 import { InputField } from 'src/components/InputField'
@@ -14,6 +14,7 @@ export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref)
   const {
     handleSubmit,
     control,
+    reset,
     formState: { isValid }
   } = useForm({
     defaultValues: {
@@ -35,6 +36,15 @@ export const BookFormModal = forwardRef<HTMLIonModalElement, Props>((props, ref)
     setIsLoading(false)
     props.onClose()
   }
+
+  useEffect(() => {
+    if (props.isOpen) {
+      reset({
+        title: '',
+        book_number: ''
+      })
+    }
+  }, [reset, props.isOpen])
 
   return (
     <IonModal

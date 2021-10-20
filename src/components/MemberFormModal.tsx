@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import {
   IonButton,
   IonButtons,
@@ -25,7 +25,8 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
   const {
     handleSubmit,
     control,
-    formState: { isValid }
+    formState: { isValid },
+    reset
   } = useForm({
     defaultValues: {
       name: '',
@@ -48,6 +49,16 @@ export const MemberFormModal = forwardRef<HTMLIonModalElement, Props>((props, re
     props.onClose()
     router.push('/books')
   }
+
+  useEffect(() => {
+    if (props.isOpen) {
+      reset({
+        name: '',
+        surname: '',
+        phone_number: ''
+      })
+    }
+  }, [reset, props.isOpen])
 
   return (
     <IonModal
