@@ -12,32 +12,31 @@ import {
   IonSearchbar,
   IonTitle,
   IonToolbar,
-  useIonRouter,
-  useIonViewWillEnter
+  useIonRouter
 } from '@ionic/react'
 import { getMode } from '@ionic/core'
 import 'src/pages/BooksView.css'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getCompleteBooksQry } from '../supabase-api/get-complete-books-qry'
-import { Book, CompleteBook } from 'src/supabase-api/interfaces/book'
+import { CompleteBook } from 'src/supabase-api/interfaces/book'
 import { matchSorter } from 'match-sorter'
-import { add, close, person, swapHorizontal } from 'ionicons/icons'
+import { add, close, person } from 'ionicons/icons'
 import { BookFormModal } from 'src/components/BookFormModal'
 
 export const BooksView: React.FC = () => {
-  const [showBookActionSheet, setShowBookActionSheet] = useState(false)
+  const [showActionSheet, setShowActionSheet] = useState(false)
   const router = useIonRouter()
 
   const [searchText, setSearchText] = useState('')
   const [books, setBooks] = useState<CompleteBook[]>([])
-  const [selectedBook, setSelectedBook] = useState<Book | undefined>(undefined)
+  const [selectedBook, setSelectedBook] = useState<CompleteBook | undefined>(undefined)
 
   const pageRef = useRef<HTMLElement>(null)
-  const bookModalRef = useRef<HTMLIonModalElement>(null)
 
+  const bookModalRef = useRef<HTMLIonModalElement>(null)
   const [showBookFormModal, setShowBookFormModal] = useState(false)
 
-  useIonViewWillEnter(() => {
+  useEffect(() => {
     getCompleteBooksQry().then(response => {
       setBooks(response)
     })
@@ -45,9 +44,9 @@ export const BooksView: React.FC = () => {
 
   const filteredBooks = matchSorter(books, searchText, { keys: ['title', 'book_number', 'authors.name'] })
 
-  const openBookActionSheet = (book: Book) => {
+  const openActionSheet = (book: CompleteBook) => {
     setSelectedBook(book)
-    setShowBookActionSheet(true)
+    setShowActionSheet(true)
   }
 
   const mode = getMode()
@@ -77,7 +76,7 @@ export const BooksView: React.FC = () => {
           <IonList>
             {filteredBooks.map(book => {
               return (
-                <IonItem key={book.id} onClick={() => openBookActionSheet(book)}>
+                <IonItem key={book.id} onClick={() => openActionSheet(book)}>
                   <IonLabel>
                     <h2>{book.title}</h2>
                     <p>
@@ -91,8 +90,8 @@ export const BooksView: React.FC = () => {
         )}
         <IonActionSheet
           header={selectedBook?.title}
-          isOpen={showBookActionSheet}
-          onDidDismiss={() => setShowBookActionSheet(false)}
+          isOpen={showActionSheet}
+          onDidDismiss={() => setShowActionSheet(false)}
           buttons={[
             {
               text: 'Prestar',
@@ -106,7 +105,7 @@ export const BooksView: React.FC = () => {
               icon: mode === 'ios' ? undefined : close,
               role: 'cancel',
               handler: () => {
-                setShowBookActionSheet(false)
+                setShowActionSheet(false)
               }
             }
           ]}
