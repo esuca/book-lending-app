@@ -17,11 +17,12 @@ import {
   useIonRouter
 } from '@ionic/react'
 import 'src/pages/BooksView.css'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { matchSorter } from 'match-sorter'
 import { add, close, person } from 'ionicons/icons'
 import { Member } from 'src/supabase-api/interfaces/member'
 import { getMembersQry } from 'src/supabase-api/get-members-qry'
+import { MemberFormModal } from 'src/pages/MemberFormModal'
 
 export const BorrowBookView: React.FC = () => {
   const [showMemberActionSheet, setShowMemberActionSheet] = useState(false)
@@ -61,8 +62,13 @@ export const BorrowBookView: React.FC = () => {
     router.goBack()
   }
 
+  const pageRef = useRef<HTMLElement>(null)
+  const memberFormModalRef = useRef<HTMLIonModalElement>(null)
+
+  const [showMemberFormModal, setShowMemberFormModal] = useState(false)
+
   return (
-    <IonPage>
+    <IonPage ref={pageRef}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Miembros</IonTitle>
@@ -70,7 +76,7 @@ export const BorrowBookView: React.FC = () => {
             <IonButton onClick={() => router.goBack()}>Cancelar</IonButton>
           </IonButtons>
           <IonButtons slot='end'>
-            <IonButton onClick={() => router.push('/forms')}>
+            <IonButton onClick={() => setShowMemberFormModal(true)}>
               <IonIcon icon={add} />
             </IonButton>
           </IonButtons>
@@ -123,6 +129,14 @@ export const BorrowBookView: React.FC = () => {
           ]}
         />
         <IonLoading isOpen={isBorrowingBook} message={'Prestando...'} />
+        {pageRef.current !== null && (
+          <MemberFormModal
+            ref={memberFormModalRef}
+            presentingElement={pageRef.current}
+            isOpen={showMemberFormModal}
+            onClose={() => setShowMemberFormModal(false)}
+          />
+        )}
       </IonContent>
     </IonPage>
   )
