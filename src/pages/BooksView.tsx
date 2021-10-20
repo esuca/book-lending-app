@@ -10,18 +10,18 @@ import {
   IonList,
   IonPage,
   IonSearchbar,
-  IonSpinner,
   IonTitle,
   IonToolbar,
   useIonRouter,
   useIonViewWillEnter
 } from '@ionic/react'
+import { getMode } from '@ionic/core'
 import 'src/pages/BooksView.css'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { getCompleteBooksQry } from '../supabase-api/get-complete-books-qry'
 import { Book, CompleteBook } from 'src/supabase-api/interfaces/book'
 import { matchSorter } from 'match-sorter'
-import { add, close, person } from 'ionicons/icons'
+import { add, close, person, swapHorizontal } from 'ionicons/icons'
 import { BookFormModal } from 'src/components/BookFormModal'
 
 export const BooksView: React.FC = () => {
@@ -49,6 +49,8 @@ export const BooksView: React.FC = () => {
     setSelectedBook(book)
     setShowBookActionSheet(true)
   }
+
+  const mode = getMode()
 
   return (
     <IonPage ref={pageRef}>
@@ -94,14 +96,14 @@ export const BooksView: React.FC = () => {
           buttons={[
             {
               text: 'Prestar',
-              icon: person,
+              icon: mode === 'ios' ? undefined : person,
               handler: () => {
                 router.push(`/borrow-book?bookId=${selectedBook?.id}`)
               }
             },
             {
               text: 'Cancelar',
-              icon: close,
+              icon: mode === 'ios' ? undefined : close,
               role: 'cancel',
               handler: () => {
                 setShowBookActionSheet(false)

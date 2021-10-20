@@ -28,6 +28,7 @@ import { add, close, person } from 'ionicons/icons'
 import { Member } from 'src/supabase-api/interfaces/member'
 import { getMembersQry } from 'src/supabase-api/get-members-qry'
 import { MemberFormModal } from 'src/components/MemberFormModal'
+import { getMode } from '@ionic/core'
 
 export const BorrowBookView: React.FC = () => {
   const [showMemberActionSheet, setShowMemberActionSheet] = useState(false)
@@ -68,6 +69,8 @@ export const BorrowBookView: React.FC = () => {
   const memberFormModalRef = useRef<HTMLIonModalElement>(null)
 
   const [showMemberFormModal, setShowMemberFormModal] = useState(false)
+
+  const mode = getMode()
 
   return (
     <IonPage ref={pageRef}>
@@ -117,12 +120,12 @@ export const BorrowBookView: React.FC = () => {
           buttons={[
             {
               text: 'Prestar libro',
-              icon: person,
+              icon: mode === 'ios' ? undefined : person,
               handler: borrowBook
             },
             {
               text: 'Cancelar',
-              icon: close,
+              icon: mode === 'ios' ? undefined : close,
               role: 'cancel',
               handler: () => {
                 setShowMemberActionSheet(false)
