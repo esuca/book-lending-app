@@ -17,6 +17,7 @@ import { CompleteLoan } from 'src/supabase-api/interfaces/loan'
 import { close, swapHorizontal } from 'ionicons/icons'
 import { getMode } from '@ionic/core'
 import { BookToReturn, BooksToReturnModal } from 'src/components/BooksToReturnModal'
+import differenceInDays from 'date-fns/differenceInDays'
 
 export const LoansView: React.FC = () => {
   const mode = getMode()
@@ -39,7 +40,27 @@ export const LoansView: React.FC = () => {
     setShowActionSheet(true)
   }
 
-  const firstFilter = loans.filter(l => new Date(l.taken_date).getFullYear() < 2021)
+  const getBooksByDeadline = () => {
+    const overTimeList: CompleteLoan[] = []
+    const inTimeList: CompleteLoan[] = []
+
+    loans.forEach(loan => {
+      const exceededDeadline = differenceInDays(new Date(), new Date(loan.taken_date)) > 60
+
+      if (exceededDeadline) {
+        overTimeList.push(loan)
+      } else {
+        inTimeList.push(loan)
+      }
+    })
+
+    return {
+      overTimeList,
+      inTimeList
+    }
+  }
+
+  const booksByDeadline = getBooksByDeadline()
 
   const doReturnBooks = async () => {
     const memberLoans = loans.filter(l => l.members.id === selectedLoan?.members.id)
@@ -74,7 +95,7 @@ export const LoansView: React.FC = () => {
           <IonListHeader>
             <IonLabel>Han superado el plazo</IonLabel>
           </IonListHeader>
-          {firstFilter.map(l => (
+          {booksByDeadline.overTimeList.map(l => (
             <IonItem key={l.id} onClick={() => openActionSheet(l)}>
               <IonLabel>
                 <h2>{l.books.title}</h2>
@@ -94,7 +115,7 @@ export const LoansView: React.FC = () => {
           <IonListHeader>
             <IonLabel>Pendientes de devolver</IonLabel>
           </IonListHeader>
-          {loans.map(l => (
+          {booksByDeadline.inTimeList.map(l => (
             <IonItem key={l.id} onClick={() => openActionSheet(l)}>
               <IonLabel>
                 <h2>{l.books.title}</h2>
